@@ -1,0 +1,181 @@
+\documentclass[11pt]{article}
+\usepackage[paper=letterpaper,margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{upquote}
+\usepackage[en-GB]{datetime2}
+\DTMlangsetup[en-GB]{ord=omit}
+
+\newcommand{\problem}[1]{\vspace*{2ex}\textbf{Problem #1 ---} }
+\newcommand{\answer}{\textit{Answer: } }
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+{\large CS 310}\\
+Assignment 0820\\
+\today
+\end{center}
+\begin{flushright}
+\emph{Zhihao Jin(Bill)}
+\end{flushright}
+
+\problem{1} Algorithms typically have the following properties:
+\begin{itemize}
+\item the steps are stated \emph{unambiguously} so that there is
+  no question how a step is performed
+\item the algorithm is \emph{deterministic} so that repeating the
+  algorithm on the same input produces the same output
+\item the algorithm is \emph{finite} because it terminates after a
+  finite number of steps have been performed
+\item the algorithm produces \emph{correct} output for a given input
+\end{itemize}
+
+For the following algorithm, for each property listed above, determine
+whether the algorithm exhibits this property:
+
+\begin{Verbatim}[numbers=left,xleftmargin=5mm]
+ unsigned max3(unsigned a, unsigned b, unsigned c)
+ {
+   unsigned result = a;
+   if (b > result)
+   {
+     result = b;
+   }
+   if (c > result)
+   {
+     result = c;
+   }
+   return result;
+ }
+\end{Verbatim}
+
+\answer This algorithm is unambiguous because the syntax for the
+operations is well-understood.  It is deterministic because it always
+produces the same output for a given input.  It is finite because the
+number of lines of code executed (including the header) is strictly
+between 3 and 7 inclusive.  It is correct because for all possible
+combinations of input it produces the correct output.
+
+\problem{2} Using the same properties as stated in problem 1, analyze
+the following algorithm:
+
+\begin{Verbatim}[numbers=left,xleftmargin=5mm]
+  void shuffle(vector<unsigned>& a)
+  {
+    for (size_t index = 0; index < a.size(); index++)
+    {
+        swap(a.at(index), a.at(get_random_within(index, a.size()));
+    }
+  }
+\end{Verbatim}
+
+\answer This algorithm is unambiguous and quit easy to
+understand. However, it is not deterministic since the output will not
+be always same based on the random function. It is finite because the
+number of iterations is from zero to the size of vector. But it
+doesn't output anything, instead, swapping the position of the
+elements in the vector.
+
+\problem{3} What is the hexadecimal representation of $770_{10}$?
+
+\answer The first few powers of 16 are:
+
+\begin{align*}
+  16^0 &= 1\\
+  16^1 &= 16\\
+  16^2 &= 256\\
+  16^3 &= 4096\\
+\end{align*}
+Thus we have:
+
+\begin{equation*}
+  \begin{split}
+    770&\\
+    \underline{-3 \times 256 = 768}&\\
+    2&\\
+    \underline{-0 \times 16 = 0}&\\
+    2&\\
+    \underline{-2 \times 1 = 2}&\\
+    0&
+  \end{split}
+\end{equation*}
+
+And thus we have $770_{10} = 302_{16}$.
+
+\problem{4} Based on your answer to the previous problem, what is the
+binary representation of $768_{10}$?
+
+\answer The first few powers of 2 are:
+
+\begin{align*}
+ 2^0 &= 1\\
+ 2^1 &= 2\\
+ 2^2 &= 4\\
+ 2^3 &= 8\\
+ 2^4 &= 16\\
+ 2^5 &= 32\\
+ 2^6 &= 64\\
+ 2^7 &= 128\\
+ 2^8 &= 256\\
+ 2^9 &= 512\\
+ 2^{10} &= 1024\\
+\end{align*}
+
+Thus we have:
+
+\begin{equation*}
+  \begin{split}
+    768&\\
+    \underline{-1 \times 512 = 512}&\\
+    256&\\
+    \underline{-1 \times 256 = 256}&\\
+    0&\\
+    \underline{-0 \times 128 = 0}&\\
+    0&\\
+    \underline{-0 \times 64 = 0}&\\
+    0&\\
+    \underline{-0 \times 32 = 0}&\\
+    0&\\
+    \underline{-0 \times 16 = 0}&\\
+    0&\\
+    \underline{-0 \times 8 = 0}&\\
+    0&\\
+    \underline{-0 \times 4 = 0}&\\
+    0&\\
+    \underline{-0 \times 2 = 0}&\\
+    0&\\
+    \underline{-0 \times 1 = 0}&\\
+    0&
+  \end{split}
+\end{equation*}
+
+And thus we have $768_{10} = 1100000000_{2}$.
+
+\problem{5} What is the decimal representation of \texttt{0x1abc}?
+
+\answer 
+Based on the table below we can find that:\\
+
+\begin{center}
+ \begin{tabular}{||c c c c c c c c c c c c c c c c c||} 
+ \hline
+ Hex number: & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & A & B & C & D & E & F \\ [0.5ex] 
+ \hline
+ decimal number: & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\ 
+ \hline    
+ \end{tabular}
+\end{center}
+
+\begin{equation*}
+    1 \times 16^3 + 10 \times 16^2 + 11 \times 16^1 + 12 \times 16^0 = 6844_{10}
+\end{equation*}
+And therefore, the decimal representation of \texttt{0x1abc} is 6844.
+
+
+\end{document}
+
+

@@ -1,0 +1,38 @@
+/**
+ * Program explanation here
+ * @author Your Name Here
+ * @version Date Last Modified Here
+ */
+
+#include <cstdint>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+/**
+ * documentation here
+ */
+size_t hashx(const string& key, uint64_t table_size);
+
+int main()
+{
+  string word;
+  vector<int> checking_table(102407, -1);
+  while(getline(cin, word))
+  {
+    cout << word << endl;
+  }
+  //hashx(word, 102407); //the nearest prime number to 102401 is 102407
+  return 0;
+}
+
+
+uint64_t hashx(const string& key, uint64_t table_size)
+{
+  uint64_t hash_value = 1;
+  for (auto character : key)
+  {
+    hash_value = 43 * hash_value + static_cast<uint64_t>(character);
+  }
+  return hash_value % table_size;
+}

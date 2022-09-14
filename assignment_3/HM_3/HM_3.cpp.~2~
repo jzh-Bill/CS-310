@@ -1,0 +1,99 @@
+/**
+ * A program that will sort a vector and calculate the number of operations in
+ * the algorithm.
+ * @author Bill Jin
+ * @version 2 September 2020
+ */
+#include <iostream>
+#include <chrono>
+#include <random>
+#include <vector>
+
+using namespace std;
+
+/**
+ * sort all the elements in a vector in an ascending order
+ * @param array is the vector to be ordered
+ */
+void foo(vector<unsigned>& array);
+
+int main(int argc, char** argv)
+{
+  //Get the random elements to assign to vector.
+  const unsigned MAX_RANDOM_VALUE = 1000000;
+  default_random_engine get_next_value(static_cast <unsigned>
+                    (chrono::system_clock::now().time_since_epoch().count()));
+  uniform_int_distribution<unsigned> uniform(0, MAX_RANDOM_VALUE);
+
+  //The replacement for magic number.
+  const unsigned INPUT_SIZE_INDEX = 1;
+
+  unsigned input_array_size = stoul(argv[INPUT_SIZE_INDEX]);
+  
+  //Declare a vector.
+  vector<unsigned> random_array(input_array_size);
+  
+  //Use for loop to assign each element in vector.
+  for (size_t i = 0; i < input_array_size; i++)
+  {
+    unsigned random_value = uniform(get_next_value);
+
+    random_array.at(i) = random_value;
+  }
+  
+  //Output the elements.
+  for (unsigned& element : random_array)
+  {
+    cout << element << " ";
+  }
+  cout << endl;
+
+  foo(random_array);
+
+  return 0;
+}
+
+void foo(vector<unsigned>& array)
+{
+  //Magic number replacement.
+  const unsigned ZERO = 0;
+  const unsigned TWO_INCREMENT = 2;
+  
+  //Declare counter variable to count.
+  unsigned counter = ZERO;
+
+  size_t n = array.size();
+  counter++;
+  for (size_t pass_indx = 0; pass_indx < n - 1; pass_indx++)
+  {
+    counter += TWO_INCREMENT;
+    size_t min_position = pass_indx;
+
+    for (size_t compare_indx = pass_indx + 1; compare_indx < n;
+         compare_indx++)
+    {
+      counter += TWO_INCREMENT; //count for loop condition twice a time. 
+
+      counter++;
+      if (array.at(compare_indx) < array.at(min_position))
+      {
+        counter++;
+        min_position = compare_indx;
+      }
+    }
+    counter += TWO_INCREMENT; //The for loop is count two more time as it ends
+
+    counter++; // Count for if condition.
+    if (min_position != pass_indx)
+    {
+      counter++;//count for swap function.
+      swap(array.at(pass_indx), array.at(min_position));
+    }
+  }
+  counter += TWO_INCREMENT; //The for loop is count two more time.
+
+  cerr << array.size() << " " << counter << endl;
+}
+
+
+

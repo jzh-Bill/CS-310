@@ -1,0 +1,12 @@
+/**
+ * A really easy program to display a message
+ * Zhihao Jin(Bill)
+ */
+
+#include <iostream>
+
+int main()
+{
+  std::cout << "Hello, world!!!" << std::endl;
+  return 0;
+}

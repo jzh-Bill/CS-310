@@ -1,0 +1,131 @@
+\documentclass[11pt]{article}
+\newcommand{\name}{Bill Jin} % PUT YOUR NAME HERE
+\usepackage[paper=letterpaper,margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage{amsmath}
+\DeclareMathOperator{\val}{val}
+\usepackage{fancyvrb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\name{}}
+\cfoot{Page \thepage}
+\usepackage[en-GB]{datetime2}
+\DTMlangsetup[en-GB]{ord=omit}
+
+\newcommand{\problem}[1]{\vspace*{2ex}\textbf{Problem #1 ---} }
+\newcommand{\answer}{\emph{Answer: } }
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+{\large CS 310}\\
+Assignment 1023\\
+\today
+\end{center}
+
+\begin{flushright}
+\name{} %DO NOT CHANGE THIS LINE
+\end{flushright}
+
+\problem{1} The $n$th Fibonacci number can be computed by dynamic
+programming. Since this is not an optimization problem, we will name
+the function \verb.val. rather than the usual \verb.opt.. Step 2 of
+the dynamic programming methodology results in the definition
+
+\[
+\val(i) = \begin{cases}
+  1 & \text{if } i < 2\\
+  \val(i-1) + \val(i-2) & \text{if } i \geq 2\\
+\end{cases}
+\]
+
+Show the code that would result from implementing this definition in
+memoized C++ code as would be done in step 3 of dynamic programming.
+Show \emph{only} the function \verb.val., not the main program or any
+helper code.
+
+\answer Implementing the above definition as a recursive,
+memoized C++ function is straightforward. We have a 1-dimension table which  assigns all elements with max number it could have, which are used to show if the cell has or has not been calculated. 
+
+\begin{Verbatim}[numbers=left, xleftmargin=5mm]
+unsigned val(unsigned value, vector<unsigned>& memo)
+{
+  if (memo.at(value) == UINT_MAX)
+  {
+    if (value < 2)
+    {
+      memo.at(value) = 1;
+    }
+    else if (value >= 2)
+    {
+      memo.at(value) = val(value - 1, memo) + val(value - 2, memo);
+    }
+  }
+  return memo.at(value);
+}
+\end{Verbatim}
+
+\problem{2} Show the filled-in memo table the code in the previous
+problem would create when computing the value for $n = 8$.
+
+\answer
+Since the program calculate the 8th Fibonacci number(count the very first Fibonacci number as 0th),which is also the index of 8 in memo table. All the rest of the cells are not calculated and remain the UINT\_MAX.
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c|c|c|c|c|c|c|c|} 
+ \hline
+ 1 & 1 & 2 & 3 & 5 & 8 & 13 & 21 & 32 & UINT\_MAX & UINT\_MAX & UINT\_MAX & ..\\ 
+ \hline
+\end{tabular}
+\end{center}
+
+
+\problem{3} Show the filled-in memo table for making
+12\textcent{} using the denominations 1\textcent, 4\textcent, and
+10\textcent. Use bold entries to show the traceback path of cells
+for the optimal set of coins used.
+
+\textit{Answer:} Since there could be two different ways to trace up those coins, therefore there are two solutions for this problem. The first one is one 10\textcent, two 1\textcent, the other is three 4\textcent $\colon$
+
+The trace back is 10\textcent, and two 1\textcent $\colon$
+\begin{center}
+\begin{tabular}{cc|*{13}{c}}
+    & \multicolumn{1}{c}{}  & \multicolumn{13}{c}{$a$} \\
+    &   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\ \cline{2-15}
+    & 0 & \textbf{0} & \textbf{1} & \textbf{2} & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12   \\
+$i$ & 1 & 0 & 1 &\textbf{2} & 3 & 1 & 2 & 3 & 4 & 2 & 3 & 4  & 5  & 3  \\
+    & 2 & 0 & 1 & \textbf{2} & 3 & 1 & 2 & 3 & 4 & 2 & 3 & 1  & 2  & \textbf{3}   \\
+\end{tabular}
+\end{center}
+
+
+
+\problem{4} Show the filled-in memo table for finding a longest common
+subsequence of the strings \verb=SLWOVNNDK= and \verb=ALWGQVNBKB=.
+Use bold entries to show the traceback path of cells for the LCS.
+
+\answer I highlight the both the head and tail of the arrow$\colon$
+
+\begin{center}
+\begin{tabular}{cc|*{12}{c}}
+    &   & - & S & L & W & O & V & N & N & D & K  \\ \cline{2-12}
+    & - & \textbf{0} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    & A & 0 & \textbf{0} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    & L & 0 & 0 & \textbf{1} & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+    & W & 0 & 0 & 1 & \textbf{2} & 2 & 2 & 2 & 2 & 2 & 2 \\
+    & G & 0 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\
+    & Q & 0 & 0 & 1 & 2 & \textbf{2} & 2 & 2 & 2 & 2 & 2 \\
+    & V & 0 & 0 & 1 & 2 & 2 & \textbf{3} & 3 & 3 & 3 & 3 \\
+    & N & 0 & 0 & 1 & 2 & 2 & 3 & \textbf{4} & 4 & 4 & 4 \\
+    & B & 0 & 0 & 1 & 2 & 2 & 3 & 4 & 4 & \textbf{4} & 4 \\
+    & K & 0 & 0 & 1 & 2 & 2 & 3 & 4 & 4 & 4 & \textbf{5} \\
+    & B & 0 & 0 & 1 & 2 & 2 & 3 & 4 & 4 & 4 & 5 \\
+    
+\end{tabular}
+\end{center}
+
+
+
+\end{document}
